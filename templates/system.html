@@ -1,0 +1,457 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="all">
+        <div class="first">
+            <div class="left_bar">
+                <h3>show subscribers in this activity</h3>
+                <form action="{% url 'sstm' %}" method="get">
+                    {% csrf_token %}
+                    <select name="activity_select" id="">
+                        {% for activity in activites1 %}
+                        <option value="{{activity.title}}">{{activity.title}}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="submit" value="sunmit" name="activity_title">
+                </form>
+            </div>
+            <div class="right_bar">
+                <ol>
+                    {% for sub in subs %}
+                    <li>{{sub.name}} ({{sub.user_class}})</li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+        <h2 class="head">Create new ...</h2>
+        <div class="forms">
+            <div class="make_activity">
+                <h1>Activity</h1>
+                <form method="post" action="{% url 'sstm' %}">
+                    {% csrf_token %}
+                    <input class="input" type="text" placeholder="title" name="title" required>
+                    <input class="input" type="text" placeholder="brief" name="brief">
+                    <input class="input" type="text" placeholder="details" name="details" required>
+                    <input class="btn" type="submit" value="create" name="crt_activity">
+                </form>
+            </div>
+            <div class="make_eps">
+                <h1>Podcast epsoid</h1>
+                <form method="post" action="{% url 'sstm' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input class="input" type="text" placeholder="title" name="title" required>
+                    <input class="input" type="file" accept=".mp4" placeholder="video" name="vid" required>
+                    <input class="btn" type="submit" value="create" name="crt_eps">
+                </form>
+            </div>
+            <div class="make_new">
+                <h1>News</h1>
+                <form method="post" action="{% url 'sstm' %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input class="input" type="text" placeholder="text" name="text" required>
+                    <input class="input" type="file" accept=".png,.jpg,.JPEG" placeholder="pic" name="pic" required>
+                    <input class="btn" type="submit" value="create" name="crt_new">
+                </form>
+            </div>
+        </div>
+        <h2 class="head">Delete...</h2>
+        <div class="forms">
+            <div class="make_activity">
+                <h1>Activity</h1>
+                <form method="post" action="{% url 'delete' %}">
+                    {% csrf_token %}
+                    {% if activities2 %}
+                    <select name="activities">
+                        {% for activity in activities2 %}
+                        <option value="{{activity.title}}">{{activity.title}}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                    <input class="btn" type="submit" value="delete" name="del_activity">
+                </form>
+            </div>
+            <div class="make_eps">
+                <h1>Podcast epsoid</h1>
+                <form method="post" action="{% url 'delete' %}">
+                    {% csrf_token %}
+                    {% if Epsoids %}
+                    <select name="epsoids" required>
+                        {% for epsoid in Epsoids %}
+                        <option value="{{epsoid.name}}">{{epsoid.name}}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                    <input class="btn" type="submit" value="delete" name="del_eps">
+                </form>
+            </div>
+            <div class="make_new">
+                <h1>News</h1>
+                <form method="post" action="{% url 'delete' %}">
+                    {% csrf_token %}
+                    {% if News %}
+                    <select name="news">
+                        {% for new in News %}
+                        <option value="{{new.text}}">{{new.text}}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                    <input class="btn" type="submit" value="delete" name="del_new">
+                </form>
+            </div>
+        </div>
+        <h2 class="head">Update...</h2>
+        <div class="forms">
+            <div class="make_activity">
+                <h1>Activity</h1>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {% if activities2 %}
+                    <select name="activities" id="activity-select">
+                        {% for activity in activities2 %}
+                        <option value="{{activity.title}}"
+                                data-name="{{ activity.title }}"
+                                data-brief="{{ activity.brief }}" 
+                                data-details="{{ activity.details }}">{{activity.title}}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                    <input class="btn" type="button" value="update" name="update_activity" onclick="update_details_activity()">
+                </form>
+            </div>
+            <div class="make_eps">
+                <h1>Podcast Episode</h1>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {% if Epsoids %}
+                    <select id="epsoid-select" name="epsoids">
+                        {% for epsoid in Epsoids %}
+                        <option value="{{ epsoid.name }}" 
+                                data-name="{{ epsoid.name }}" 
+                                data-vid="{{ epsoid.video }}">
+                            {{ epsoid.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                    <button type="button" class="btn" onclick="update_details_epsoid()">Update</button>
+                </form>
+            </div>
+            <div class="make_new">
+                <h1>News</h1>
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {% if News %}
+                    <select name="news" id="news-select">
+                        {% for new in News %}
+                        <option value="{{new.text}}" 
+                                data-name="{{ new.title }}"
+                                data-text="{{ new.text }}" 
+                                data-pic="{{ new.pic }}">{{new.text}}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                    <input class="btn" type="button" value="update" name="update_new" onclick="update_details_news()">
+                </form>
+            </div>
+        </div>
+        <div id="hidden-divs">
+            <div id="update-epsoid">
+                <form method="post" action="{% url 'update' %}">
+                    {% csrf_token %}
+                    <input class="input" type="text" placeholder="title" id="ori-title1" name="ori-title" readonly>
+                    <input class="input" type="text" placeholder="title" id="title1" name="title">
+                    <input class="input file" type="file" accept=".mp4" placeholder="video" id="vid" name="vid">
+                    <input class="btn" type="submit" value="update" name="upd_eps">
+                </form>
+            </div>
+            <div id="update-activity">
+                <form method="post" action="{% url 'update' %}">
+                    {% csrf_token %}
+                    <input class="input" type="text" placeholder="title" id="ori-title2" name="ori-title" readonly>
+                    <input class="input" type="text" placeholder="title" id="title2" name="title">
+                    <input class="input" type="text" placeholder="brief" id="brief" name="brief">
+                    <input class="input" type="text" placeholder="details" id="details" name="details">
+                    <input class="btn" type="submit" value="update" name="upd_act">
+                </form>
+            </div>
+            <div id="update-news">
+                <form method="post" action="{% url 'update' %}">
+                    {% csrf_token %}
+                    <input class="input" type="text" placeholder="title" id="ori-title3" name="ori-title" readonly>
+                    <input class="input" type="text" placeholder="title" id="title3" name="title">
+                    <input class="input" type="text" placeholder="text" id="text" name="text">
+                    <input class="input file" type="file" accept=".png,.jpg,.JPEG" placeholder="pic" id="pic" name="pic">
+                    <input class="btn" type="submit" value="update" name="upd_new">
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+    function update_details_epsoid() {
+        let selectElement = document.getElementById("epsoid-select");
+        let selectedOption = selectElement.options[selectElement.selectedIndex];
+        const update_epsoid = document.getElementById('update-epsoid')
+        const update_news = document.getElementById('update-news')
+        const update_activity = document.getElementById('update-activity')
+        update_epsoid.style.display = 'block'
+        update_news.style.display = 'none'
+        update_activity.style.display = 'none'
+
+        let name = selectedOption.getAttribute("data-name");
+        let video = selectedOption.getAttribute("data-vid");
+
+        document.getElementById("ori-title1").value = name;
+        document.getElementById("title1").value = name;
+
+        // File input cannot be set programmatically, so show a message instead
+        alert("Please re-upload the video file: " + video);
+    }
+
+    function update_details_activity() {
+        let selectElement = document.getElementById("activity-select");
+        let selectedOption = selectElement.options[selectElement.selectedIndex];
+        const update_epsoid = document.getElementById('update-epsoid')
+        const update_news = document.getElementById('update-news')
+        const update_activity = document.getElementById('update-activity')
+        update_epsoid.style.display = 'none'
+        update_news.style.display = 'none'
+        update_activity.style.display = 'block'
+
+        let name = selectedOption.getAttribute("data-name");
+        let brief = selectedOption.getAttribute("data-brief");
+        let details = selectedOption.getAttribute("data-details");
+
+        document.getElementById("ori-title2").value = name;
+        document.getElementById("title2").value = name;
+        document.getElementById("brief").value = brief;
+        document.getElementById("details").value = details;
+    }
+
+    function update_details_news() {
+        let selectElement = document.getElementById("news-select");
+        let selectedOption = selectElement.options[selectElement.selectedIndex];
+        const update_epsoid = document.getElementById('update-epsoid')
+        const update_news = document.getElementById('update-news')
+        const update_activity = document.getElementById('update-activity')
+        update_epsoid.style.display = 'none'
+        update_news.style.display = 'block'
+        update_activity.style.display = 'none'
+
+        let name = selectedOption.getAttribute("data-name");
+        let pic = selectedOption.getAttribute("data-pic");
+        let text = selectedOption.getAttribute("data-text");
+
+
+        document.getElementById("ori-title3").value = name;
+        document.getElementById("title3").value = name;
+        document.getElementById("text").value = text;
+
+        // File input cannot be set programmatically, so show a message instead
+        alert("Please re-upload the pic file: " + pic);
+    }
+    </script>
+    </body>
+<style>
+    ::selection {
+        color: #ff0057;
+        background: #1e1f21;
+    }
+    .all{
+        font-family: Arial, Helvetica, sans-serif;
+        color: #1e1f21;
+        text-align: center;
+        .first{
+            display: flex;
+            justify-content: center;
+            .left_bar{
+                height: 100%;
+                width: 20%;
+                margin: 0;
+                background-color: #1e1f21;
+                border-radius: 10px;
+                padding: 15px;
+                text-align: center;
+                h3{
+                    font-size: 20px;
+                    color: white;
+                }
+                form{
+                    margin: 10px 0px;
+                    select{
+                        display: block;
+                        width: 70%;
+                        height: 10%;
+                        color: #141c22;
+                        margin: 20px 15%;
+                        padding: 15px;
+                        border: none;
+                    }
+                    input{
+                        display: block;
+                        width: 70%;
+                        height: 10%;
+                        background-color: #ff0057;
+                        color: #141c22;
+                        margin: 20px 15%;
+                        padding: 15px;
+                        border: none;
+                    }
+                }
+            }
+            .right_bar{
+                margin: 0 100px;
+                background-color: #1e1f21;
+                color: white;
+                padding: 20px;
+                border-radius: 10px;
+                margin: 0px 50px;
+                height: auto;
+                text-align: center;
+                color: #ff0057;
+                ol{
+                    display: flex;
+                    li{
+                        margin: 20px;
+                    }
+                }
+            }
+        }
+        .head{
+            text-align: center;
+            margin: 100px;
+            font-size: 20px;
+        }
+        .forms{
+            width: 100%;
+            text-align: center;
+            display: flex;
+            div{
+                margin:0px 100px;
+                text-align: center;
+                width: 45%;
+                .input, select{
+                    display: block;
+                    margin: 20px 0px;
+                    width: 100%;
+                    height: 35px;
+                    text-align: center;
+                    box-shadow: 4px 4px #1e1f21;
+                }
+                .btn{
+                    color: #ff0057;
+                    background-color: #1e1f21;
+                    border: none;
+                    display: block;
+                    margin: 20px 0px;
+                    width: 100%;
+                    height: 35px;
+                    text-align: center;
+                    box-shadow: 4px 4px #ff0057;
+                }
+                .btn:hover{
+                    color: #141c22;
+                    background-color: #ff0057;
+                    box-shadow: 4px 4px #1e1f21;
+                }
+            }
+            
+        }
+        #hidden-divs{
+            #update-epsoid{
+                background-color: #f7f7f7;
+                border: 4px solid  #1e1f21;
+                height: auto;
+                width: 35%;
+                border-radius: 5px;
+                justify-content: center;
+                margin: 100px 32.5%;
+                display: none;
+                form{
+                    .input{
+                        display: block;
+                        margin: 50px 22.5%;
+                        width: 50%;
+                        height: 35px;
+                        text-align: center;
+                        box-shadow: 4px 4px #1e1f21;
+                    }
+                    .btn{
+                        color: #ff0057;
+                        background-color: #1e1f21;
+                        border: none;
+                        display: block;
+                        width: 50%;
+                        height: 35px;
+                        text-align: center;
+                        margin: 50px 22.5%;
+                    }
+                }
+            }
+            #update-activity{
+                background-color: #f7f7f7;
+                border: 4px solid  #1e1f21;
+                height: auto;
+                width: 35%;
+                border-radius: 5px;
+                justify-content: center;
+                margin: 100px 32.5%;
+                display: none;
+                form{
+                    .input{
+                        display: block;
+                        margin: 50px 22.5%;
+                        width: 50%;
+                        height: 35px;
+                        text-align: center;
+                        box-shadow: 4px 4px #1e1f21;
+                    }
+                    .btn{
+                        color: #ff0057;
+                        background-color: #1e1f21;
+                        border: none;
+                        display: block;
+                        width: 50%;
+                        height: 35px;
+                        text-align: center;
+                        margin: 50px 22.5%;
+                    }
+                }
+            }
+            #update-news{
+                background-color: #f7f7f7;
+                border: 4px solid  #1e1f21;
+                height: auto;
+                width: 35%;
+                border-radius: 5px;
+                justify-content: center;
+                margin: 100px 32.5%;
+                display: none;
+                form{
+                    .input{
+                        display: block;
+                        margin: 50px 22.5%;
+                        width: 50%;
+                        height: 35px;
+                        text-align: center;
+                        box-shadow: 4px 4px #1e1f21;
+                    }
+                    .btn{
+                        color: #ff0057;
+                        background-color: #1e1f21;
+                        border: none;
+                        display: block;
+                        width: 50%;
+                        height: 35px;
+                        text-align: center;
+                        margin: 50px 22.5%;
+                    }
+                }
+            }
+        }
+    }
+</style>
+</html>

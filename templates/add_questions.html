@@ -1,0 +1,52 @@
+{% load widget_tweaks %}
+{% block title %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{% endblock title %}
+{% block content %}
+<body>
+    <form method="post">
+        <h2>Add questions</h1>
+        {% csrf_token %}
+        {{ formset.as_p }}
+        <button class="btn" type="submit">Add Questions</button>
+    </form>
+</body>
+<style>
+    *{
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #1e1f21;
+    }
+    form{
+        text-align: center;
+        border-radius: 10px;
+        border: 1px solid #1e1f21;
+        width: 70%;
+        padding: 100px;
+        margin: 10%;
+        h2{
+            margin-bottom: 50px;
+        }
+        .form-control{
+            width: 70%;
+            height: 50px;
+            border: 1px solid #1e1f21;
+            margin: 2%;
+        }
+        .btn{
+            width: 50%;
+            height: 50px;
+            border: 1px solid #1e1f21;
+            margin: 2%;
+            background-color: #1e1f21;
+            color: white;
+        }
+    }
+</style>
+</html>
+{% endblock content %}

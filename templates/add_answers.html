@@ -1,0 +1,56 @@
+{% load widget_tweaks %}
+{% block title %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+{% endblock title %}
+{% block content %}
+<body>
+    <form method="post">
+        <h2>Add new answers</h1>
+        {% csrf_token %}
+        {% for question in questions %}
+            <h3>{{ question.text }}</h3>
+            {% for i in "1234" %}
+                <input class="form-control" type="text" name="answer_{{ question.id }}_{{ i }}">
+                <input class="form-control" type="radio" name="correct_{{ question.id }}" value="{{ i }}"> Correct?
+                <br>
+            {% endfor %}
+        {% endfor %}
+        <button class="btn" type="submit">Save Answers</button>
+    </form>
+</body>
+<style>
+    *{
+        text-align: center;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #1e1f21;
+    }
+    form{
+        text-align: center;
+        border-radius: 10px;
+        border: 1px solid #1e1f21;
+        width: 70%;
+        padding: 100px;
+        margin: 10%;
+        .form-control{
+            width: 20%;
+            height: 30px;
+            border: 1px solid #1e1f21;
+        }
+        .btn{
+            width: 30%;
+            height: 40px;
+            border: 1px solid #1e1f21;
+            /* margin: 2%; */
+            margin-top: 10%;
+            background-color: #1e1f21;
+            color: white;
+        }
+    }
+</style>
+</html>
+{% endblock content %}

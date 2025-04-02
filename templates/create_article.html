@@ -1,0 +1,51 @@
+{% load static %}
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+    <script src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Blog Post</title>
+</head>
+<body>
+    <h1 class="head">Create Article</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.media }}
+        {% render_field form.title placeholder='Article title' class+='form-control title' %}
+        {% render_field form.content class+='form-control' %}
+        <button type="submit">Save Post</button>
+    </form>
+</body>
+<style>
+    body{
+        text-align: center;
+        color: #1e1f21;
+        font-family: Arial, Helvetica, sans-serif;
+    }
+    form{
+        margin: 100px 0px;
+        .form-control{
+            margin: 50px;
+        }
+        .title{
+            width: 20%;
+            height: 40px;
+            text-align: center;
+        }
+        button{
+            margin: 50px;
+            width: 20%;
+            height: 40px;
+            text-align: center;
+            background-color: #1e1f21;
+            color: white;
+        }
+    }
+    .head{
+
+    }
+</style>
+</html>

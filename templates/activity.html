@@ -1,0 +1,230 @@
+{% load widget_tweaks %}
+{% load static %}
+{% block title %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The english club</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+{% endblock title %}
+{% block content %}
+<body>
+    <header>
+        <div class="school">
+            <p>Al-Daawaa Al-eslamia school for boys </p>
+            <p>One of the schools in 30 of June party/groub </p>
+            <div class="footerLinks">
+                <ul class="foot">
+                    <li><a href="{% url 'home' %}">home</a></li>
+                    <li><a href="#">technical support</a></li>
+                    <li><a href="{% url 'logout' %}">logout</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="club">
+            <h1>The English Club</h1>
+            <h3>{{activity.title}}</h3>
+        </div>
+    </header>
+    <div class="details">
+        <h2>The activity details</h2>
+        <p>{{activity.details}}</p>
+    </div>
+    <div class="login-page">
+        <h2>To subscribe in this activity</h2>
+        <input type="button" onclick="open_form()" id="button" value="click here">
+        <div class="login-form" id="login-form">
+            <p style="color: rgb(172, 34, 34);">{{error}}</p>
+            <form method="post">
+                {% csrf_token %}
+                <input class="form-control" name="username" type="text" placeholder="enter uour username..." required>
+                <input class="form-control" name="Code" type="text" placeholder="enter your Code..." required>
+                <input class="form-control" name="activity" type="hidden" value="{{ activity.title }}">
+                <input class="form-control" name="class" type="text" value="{{ activity.user_class }}" placeholder="enter your class...">
+                <input class="form-control" name="activity" type="text" value="{{ activity.title }}" disabled>
+                <button type="submit">submit</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        function open_form() {
+            const login_form = document.getElementById('login-form')
+            const button = document.getElementById('button')
+            button.style.display = 'none'
+            login_form.style.display = 'grid'
+        }
+    </script>
+</body>
+<footer>
+    <div class="footerContainer">
+        <div class="socialIcons">
+            <a href="#"><i class="fa-brands fa-facebook facebook"></i></a>
+            <a href="https://www.youtube.com/@aldawaaschools7470"><i class="fa-brands fa-youtube youtube"></i></a>
+        </div>
+        
+        <div class="Copyright">
+            <p>&#127817; Copyrights &copy;2024 | Develobed by Kareem Elnazer &#127817;</p>
+        </div>
+    </div>    
+</footer>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    ::selection {
+        color: #ff0057;
+        background: #1e1f21;
+    }
+    header {
+        .club{
+            background: #1e1f21;
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+        }
+        .school{
+            color: #1e1f21;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 10px 0;
+        }
+    }
+    .details{
+        background-color: #f4f4f4;
+        color: #1e1f21;
+        width: 80%;
+        margin: 5%;
+        padding: 5%;
+        text-align: center;
+        word-wrap: break-word;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(67, 67, 67, 0.8);
+        h2{
+            /* text-align: center; */
+            margin-bottom: 5%;
+        }
+        p{
+            font-weight: bold;
+            font-size: 15px;
+        }
+    }
+    .login-page{
+        background-color: #f4f4f4;
+        color: #1e1f21;
+        width: 80%;
+        margin: 5%;
+        padding: 5%;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(67, 67, 67, 0.8);
+        h2{
+            /* text-align: center; */
+            margin-bottom: 5%;
+        }
+        #button{
+            width: 10%;
+            height: 6%;
+            background-color: #1e1f21;
+            color: #f4f4f4;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+        .login-form{
+            margin-top: 50px;
+            width: 50%;
+            display: none;
+            margin-left: 22%;
+            border-radius: 10px;
+            .form-control{
+                display: block;
+                width: 100%;
+                height: 30px;
+                border-radius: 5px;
+                margin: 10px;
+                background-color: rgb(235, 235, 235);
+                border: none;
+                text-align: center;
+            }
+            button{ 
+                width: 25%;
+                float: left;
+                height: 30px;
+                margin-left: 40%;
+                margin-top: 10px;
+                border-radius: 5px;
+                text-align: center;
+                background-color: #1e1f21;
+                color: white;
+            }
+        }
+    }
+    .footerContainer{
+        margin-top: 500px;
+    }
+    .socialIcons{
+        display: flex;
+        justify-content: center;
+    }
+    .socialIcons a{
+        text-decoration: none;
+        padding:12px;
+        border-radius: 50%;
+        margin:0px 10px;
+        background-color: white;
+        transition: 0.5s;
+    }
+    .socialIcons a i{
+        font-size: 2em;
+        color: #1e1f21;
+        opacity: 0.9;
+        transition: 0.5s;
+    }
+    .socialIcons a:hover{
+        background-color: #1e1f21;
+        transition: 0.5s;
+    }
+    .socialIcons a i:hover{
+        color: white;
+        transition: 0.5s;
+    }
+
+    .footerLinks{
+        margin: 10px 0;
+    }
+    .footerLinks ul{
+        display: flex;
+        justify-content: center;
+    }
+    .footerLinks ul li a{
+        color :#1e1f21;
+        font-weight: bold;
+        margin:20px;
+        text-decoration: none;
+        font-size: 1.2em;
+        transition: 0.5s;
+        font-family: sans-serif;
+    }
+    .Copyright p{
+        color:#1e1f21;
+        text-align: center;
+        font-size: 1.3em;
+        font-family: fantasy;
+        padding: 10px;
+    }
+    .shape{
+        border: 5px dashed white;
+    }
+    .foot{
+        list-style-type: none;
+    }
+    .btn{
+        background-color: whitesmoke;
+        color:grey;
+        border-radius: 20;
+    }
+</style>
+{% endblock content %}

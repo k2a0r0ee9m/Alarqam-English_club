@@ -1,0 +1,94 @@
+{% load widget_tweaks %}
+{% block title %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+{% endblock title %}
+{% block content %}
+<body>
+    <header>
+        <div class="school">
+            <p>Al-Daawaa Al-eslamia school for boys </p>
+            <p>One of the schools in 30 of June party/groub </p>
+        </div>
+        <div class="club">
+            <div class="club-header">
+                <h1>The English Club</h1>
+            </div>
+            <div class="club-brief">
+                <h3>Add Students<h3>
+            </div>
+        </div>
+    </header>
+    <div class="login-page">
+        <div class="login-form">
+            <form method="post" action="{% url 'login' %}" autocomplete="off">
+                {% csrf_token %}
+                {% render_field form.unique_code placeholder='Code' class+='form-control' %}
+                {% render_field form.password placeholder='password' class+='form-control' %}
+                <button type="submit">login</button>
+            </form>
+        </div>
+    </div>
+</body>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+    }
+    ::selection {
+        color: #ff0057;
+        background: #1e1f21;
+    }
+    header {
+        .club{
+            background: #1e1f21;
+            color: #ffffff;
+            padding: 10px 0;
+            text-align: center;
+            width: 100%;
+        }
+        .school{
+            color: #1e1f21;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 10px 0;
+        }
+    }
+    .login-page{
+        text-align: center;
+        .login-form{
+            margin-top: 200px;
+            width: 50%;
+            display: grid;
+            margin-left: 22%;
+            .form-control{
+                display: block;
+                width: 100%;
+                height: 45px;
+                margin: 20px;
+                background-color: rgb(255, 255, 255);
+                border: none;
+                text-align: center;
+                border: 2px solid #1e1f21;
+                box-shadow: 10px 10px #1e1f21;
+            }
+            button{ 
+                width: 25%;
+                float: left;
+                height: 40px;
+                margin-left: 40%;
+                margin-top: 20px;
+                border-radius: 5px;
+                text-align: center;
+                background-color: #1e1f21;
+                color: white;
+            }
+        }
+    }
+</style>
+{% endblock content %}
