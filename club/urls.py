@@ -22,6 +22,9 @@ urlpatterns = [
     path('quiz/<int:quiz_id>/add_questions/', add_questions, name='add_questions'),
     path('quiz/<int:quiz_id>/add_answers/', add_answers, name='add_answers'),
     path('quiz/<str:article_title>/', take_quiz, name='take_quiz'),
+    path('search_users/', search_Users, name='search-users'),
+    path('delete_user/<str:user_code>', delete_Users, name='delete-user'),
+    path('delete_article/<str:article_title>', delete_Articles, name='delete-article'),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

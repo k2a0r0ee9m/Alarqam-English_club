@@ -27,8 +27,7 @@ def signUp(request):
     if request.method == 'POST':
         form = Signupform(request.POST)
         if form.is_valid():
-            user = form.save()
-            login(request, user)
+            form.save()
             print(form)
         else:
             print(form.errors)
@@ -205,6 +204,7 @@ def UpDaTe(request):
 
 @user_passes_test(admin_only)
 def create_article(request):
+    articles = ARTICLE.objects.all()
     if request.method == 'POST':
         form = ArticleForm(request.POST)
         if form.is_valid():
@@ -212,7 +212,7 @@ def create_article(request):
             return redirect('create_article')
     else:
         form = ArticleForm()
-    return render(request, 'create_article.html', {'form': form})
+    return render(request, 'create_article.html', {'form': form, 'articles':articles})
 
 @login_required(login_url='login')
 def Articles(request):
@@ -299,3 +299,32 @@ def take_quiz(request, article_title):
 
     return render(request, 'take_quiz.html', {'quiz': quiz, 'questions': questions})
 
+@user_passes_test(admin_only)
+def search_Users(request):
+    query = request.GET.get('q', '')
+    if query :
+        users = USER.objects.filter(username__icontains=query
+            ) | USER.objects.filter(Level__icontains=query
+            ) | USER.objects.filter(unique_code__icontains=query
+            ) | USER.objects.filter(user_class__icontains=query)
+    else:
+        users = USER.objects.all()
+    return render(request, 'Search_Users.html', {'users': users})
+
+@user_passes_test(admin_only)
+def delete_Users(request, user_code):
+    if request.user.is_superuser:
+        user = get_object_or_404(USER, unique_code=user_code)
+        user.delete()
+        return redirect('search-users')
+    else:
+        return HttpResponseForbidden("You are not allowed to delete this user.")
+
+@user_passes_test(admin_only)
+def delete_Articles(request, article_title):
+    if request.user.is_superuser:
+        article = get_object_or_404(ARTICLE, title=article_title)
+        article.delete()
+        return redirect('create_article')
+    else:
+        return HttpResponseForbidden("You are not allowed to delete this article.")

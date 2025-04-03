@@ -9,7 +9,7 @@ from django_ckeditor_5.widgets import CKEditor5Widget
 class Signupform(UserCreationForm):
     class Meta:
         model = USER
-        fields = ['username', 'password1', 'password2', 'Level']
+        fields = ['username', 'password1', 'password2', 'Level','user_class']
         widgets = {'Level': forms.Select(attrs={'placeholder': 'Level'})}
 
 class CustomLoginForm(forms.Form):

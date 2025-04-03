@@ -10,14 +10,28 @@
     <title>Create Blog Post</title>
 </head>
 <body>
-    <h1 class="head">Create Article</h1>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.media }}
-        {% render_field form.title placeholder='Article title' class+='form-control title' %}
-        {% render_field form.content class+='form-control' %}
-        <button type="submit">Save Post</button>
-    </form>
+    <div class="create">
+        <h1 class="head">Create Article</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.media }}
+            {% render_field form.title placeholder='Article title' class+='form-control title' %}
+            {% render_field form.content class+='form-control' %}
+            <button type="submit">Save Post</button>
+        </form>
+    </div>
+    {% if articles %}
+    <div class="delete">
+        <h1 class="head">Delete Article</h1>
+        <div class="Articles">
+            {% for article in articles %}
+                <div class="article">
+                    <a href="{% url 'delete-article' article.title %}"><p>{{article.title}}</p></a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
 </body>
 <style>
     body{
@@ -44,8 +58,28 @@
             color: white;
         }
     }
-    .head{
-
+    .delete{
+        .Articles{
+            text-align: center;
+            display: flex;
+            .article{
+                border-radius: 10px;
+                border: 1px solid #1e1f21;
+                padding: 100px;
+                margin: 50px;
+                font-size: 20px;
+                background-color: #e7e7e7;
+                transition: 2s;
+                a{
+                    text-decoration: none;
+                    color: #1e1f21;
+                }
+            }
+            .article:hover{
+                background-color: #a30000;
+                transition: 2s;
+            }
+        }
     }
 </style>
 </html>

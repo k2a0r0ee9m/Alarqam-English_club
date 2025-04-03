@@ -4,46 +4,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Quiz</title>
 </head>
 {% endblock title %}
 {% block content %}
 <body>
-    <form method="post">
-        {% csrf_token %}
-        {% for question in questions %}
-            <h3>{{ question.text }}</h3>
-            {% for answer in question.answers.all %}
-                <input class="form-control" type="radio" name="question_{{ question.id }}" value="{{ answer.id }}"> {{ answer.text }}<br>
-            {% endfor %}
-        {% endfor %}
-        <button class="btn" type="submit">Submit Quiz</button>
-    </form>
+    <div class="exam">
+        <h1>Take an exam on {{ quiz.title }}</h1>
+        <div class="questions">
+            <form method="post">
+                {% csrf_token %}
+                {% for question in questions %}
+                    <p>{{ question.text }}</p>
+                    {% for answer in question.answers.all %}
+                        <input class="form-control" type="radio" name="question_{{ question.id }}" value="{{ answer.id }}">{{ answer.text }}<br>
+                    {% endfor %}
+                {% endfor %}
+                <button class="btn" type="submit">Submit Quiz</button>
+            </form>
+        </div>
+    </div>
 </body>
 <style>
     *{
-        text-align: center;
         font-family: Arial, Helvetica, sans-serif;
         color: #1e1f21;
     }
-    form{
-        border-radius: 10px;
-        border: 1px solid #1e1f21;
-        width: 70%;
-        padding: 100px;
-        margin: 10%;
-        .form-control{
-            width: 20%;
-            height: 30px;
+    .exam{
+        h1{
+            text-align: center;
+            color: #1e1f21;
+            margin: 50px;
         }
-        .btn{
-            width: 30%;
-            height: 40px;
-            border: 1px solid #1e1f21;
-            /* margin: 2%; */
-            margin-top: 10%;
-            background-color: #1e1f21;
-            color: white;
+        .questions{
+            border: 2px solid #1e1f21;
+            padding: 50px 100px;
+            margin: 5%;
+            p{
+                font-size: 23px;
+            }
+            button{
+                text-align: center;
+                margin: 75px 0px 0px 0px;
+                padding: 20px 50px;
+                background-color: #1e1f21;
+                color: #ffffff;
+                font-size: 15px;
+            }
         }
     }
 </style>

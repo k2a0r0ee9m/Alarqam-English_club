@@ -24,9 +24,10 @@ class USER(AbstractUser):
     username = models.CharField(default='New user', max_length=150, unique=True)
     Level = models.CharField(choices=LEVEL, max_length=50 , default='')
     unique_code = models.CharField(default=generate_unique_code, editable=False, unique=True, blank=True, max_length=5)
+    user_class = models.TextField(max_length=50 , default='')
 
     def __str__(self):
-        return f'{self.username}({self.unique_code})'
+        return f'{self.username} {self.user_class}({self.unique_code})'
 
 
 class ACTIVITY(models.Model):
