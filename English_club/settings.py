@@ -221,6 +221,13 @@ CKEDITOR_5_CONFIGS = {
     }
 }
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://alarqam-englishclub-production.up.railway.app",  # Replace with your actual Railway URL
+]
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
