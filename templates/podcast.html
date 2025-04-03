@@ -40,8 +40,6 @@
         class="video-js"
         controls
         preload="auto"
-        width="800"
-        height="450"
         data-setup="{}">
             <source src="{{Podcast.video.url}}" type="video/mp4">
             Your browser does not support the video tag.
@@ -63,11 +61,11 @@
 </footer>
 <style>
     body {
+        text-align: center;
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 0;
         background-color: #f4f4f4;
-        text-align: center;
     }
 
     ::selection {
@@ -97,11 +95,20 @@
         font-size: 20px;
     }
     #my-video {
-        margin: 10% 20%;
+        margin: 2.5%;
         text-align: center;
         border-radius: 20px;
+        width: 800px;
+        height: 450px;
         video{
             border-radius: 20px;
+        }
+    }
+    @media screen and (max-width:853px) {
+        #my-video {
+            margin: 0%;
+            width: 500px;
+            height: 281.25px;
         }
     }
     .footerContainer{
